@@ -344,6 +344,11 @@ elif page == "Segments RFM (Prioriser)":
     fig4, ax4 = plt.subplots(figsize=(8, 4))
     seg_plot = rfm_summary.sort_values("total_monetary", ascending=False)
     ax4.bar(seg_plot["Segment"], seg_plot["total_monetary"])
+    ax4.set_xlabel("Segment RFM")
+    ax4.set_ylabel("CA total")
+    ax4.set_title("CA total par segment RFM")
+    st.pyplot(fig4)
+
 
 
 
