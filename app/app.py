@@ -339,5 +339,11 @@ elif page == "Segments RFM (Prioriser)":
         "Vous pouvez orienter le CRM en priorisant les segments à forte valeur "
         "(ex. Champions, Loyaux) et traiter les segments à risque."
     )
+    # Barplot CA par segment
+    st.markdown("### 💰 CA total par segment RFM")
+    fig4, ax4 = plt.subplots(figsize=(8, 4))
+    seg_plot = rfm_summary.sort_values("total_monetary", ascending=False)
+    ax4.bar(seg_plot["Segment"], seg_plot["total_monetary"])
+
 
 
