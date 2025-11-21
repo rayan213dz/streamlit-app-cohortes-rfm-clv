@@ -167,3 +167,25 @@ def compute_clv_empirical(retention_table, revenue_age, horizon_months=12):
 
     clv = revenue_age.iloc[:, :horizon_months].mean().sum()
     return clv
+
+
+
+# ============================================================
+# 6. CLV (formule fermée)
+# ============================================================
+
+def compute_clv_formula(r, d, m):
+    """
+    CLV = m * r / (1 + d - r)
+    où :
+    - r = taux de rétention mensuel
+    - d = taux d'actualisation mensuel
+    - m = marge moyenne par mois
+    """
+
+    if r >= 1:
+        return np.inf
+
+    return m * (r / (1 + d - r))
+
+
