@@ -105,3 +105,53 @@ def compute_cohorts(df):
     )
 
     return cohort_counts, retention, revenue_age
+
+# ============================================================
+# 4. RFM
+# ============================================================
+
+def compute_rfm(df):
+    """
+    Calcule Recency, Frequency, Monetary
+    Ajoute :
+        - scores R, F, M (1–5)
+        - score global
+        - label segment
+    """
+
+    snapshot_date = df["InvoiceDate"].max() + pd.Timedelta(days=1)
+
+    rfm = df.groupby("Customer ID").agg({
+        "InvoiceDate": lambda x: (snapshot_date - x.max()).days,
+        "Invoice": "nunique",
+        "Revenue": "sum"
+    })
+
+    rfm.columns = ["Recency", "Frequency", "Monetary"]
+
+    # Scores RFM (quantiles)
+    rfm["R_score"] = pd.qcut(rfm["Recency"], 5, labels=[5,4,3,2,1])
+    rfm["F_score"] = pd.qcut(rfm["Frequency"].rank(method="first"), 5, labels=[1,2,3,4,5])
+    rfm["M_score"] = pd.qcut(rfm["Monetary"].rank(method="first"), 5, labels=[1,2,3,4,5])
+
+    rfm["RFM_score"] = (
+        rfm["R_score"].astype(int) +
+        rfm["F_score"].astype(int) +
+        rfm["M_score"].astype(int)
+    )
+
+    # Segments
+    def label_segment(score):
+        if score >= 13:
+            return "Champions"
+        if score >= 10:
+            return "Loyaux"
+        if score >= 7:
+            return "Potentiels"
+        if score >= 5:
+            return "À risque"
+        return "Perdus"
+
+    rfm["Segment"] = rfm["RFM_score"].apply(label_segment)
+
+    return rfm
