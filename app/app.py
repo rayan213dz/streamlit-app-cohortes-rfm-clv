@@ -52,7 +52,7 @@ st.sidebar.header("🔍 Filtres globaux")
 min_date = df_raw["InvoiceDate"].min().date()
 max_date = df_raw["InvoiceDate"].max().date()
 
-start_date = st.sidebar.date_input("Date de début", min_date, min_value=min_date, max_value=max_date)
+start_date =st.sidebar.date_input("Date de début", min_date, min_value=min_date, max_value=max_date)
 end_date = st.sidebar.date_input("Date de fin", max_date, min_value=min_date, max_value=max_date)
 
 if start_date > end_date:
@@ -103,6 +103,7 @@ elif returns_mode == "Neutraliser":
     st.markdown("🟦 *Retours neutralisés (CA = 0)*")
 
 st.markdown("---")
+
 
 
 
