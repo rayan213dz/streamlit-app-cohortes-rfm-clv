@@ -216,4 +216,22 @@ if page == "KPIs (Overview)":
 
     st.markdown("---")
 
+    # Petite tendance CA dans le temps
+    st.subheader("📈 Tendance de CA par mois (périmètre filtré)")
+    monthly_rev = (
+        df.groupby("InvoiceMonth")["Revenue"]
+        .sum()
+        .reset_index()
+        .sort_values("InvoiceMonth")
+    )
+
+    fig, ax = plt.subplots(figsize=(10, 4))
+    ax.plot(monthly_rev["InvoiceMonth"], monthly_rev["Revenue"], marker="o")
+    ax.set_title("CA mensuel")
+    ax.set_xlabel("Mois")
+    ax.set_ylabel("CA")
+    ax.grid(True, alpha=0.3)
+    st.pyplot(fig)
+
+    st.caption(f"n mois = {len(monthly_rev)} | n transactions = {len(df):,}")
 
