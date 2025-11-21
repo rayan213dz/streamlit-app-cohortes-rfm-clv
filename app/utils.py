@@ -189,3 +189,40 @@ def compute_clv_formula(r, d, m):
     return m * (r / (1 + d - r))
 
 
+# ============================================================
+# 7. Scénarios (simulation pour Streamlit)
+# ============================================================
+
+def simulate_scenarios(base_clv, retention, margin, retention_gain=0, margin_gain=0):
+    """
+    Retourne le CLV modifié après application :
+        - d'un gain de rétention (%)
+        - d'un gain de marge (%)
+    """
+
+    new_r = retention * (1 + retention_gain)
+    new_m = margin * (1 + margin_gain)
+
+    new_clv = compute_clv_formula(new_r, d=0.01, m=new_m)
+
+    delta = new_clv - base_clv
+
+    return new_clv, delta
+
+def data_quality_report(df_raw, df_filtered):
+    report = {}
+    report["rows_total"] = len(df_raw)
+    report["rows_filtered"] = len(df_filtered)
+    report["pct_kept"] = len(df_filtered) / len(df_raw) * 100
+
+    report["pct_missing_customer"] = df_raw["Customer ID"].isna().mean() * 100
+    report["pct_returns"] = df_raw["Invoice"].astype(str).str.startswith("C").mean() * 100
+
+    # part du CA liée aux retours (avant neutralisation)
+    if "Revenue" in df_raw.columns:
+        total_rev = df_raw["Revenue"].sum()
+        returns_rev = df_raw.loc[df_raw["Revenue"] < 0, "Revenue"].sum()
+        report["returns_share_revenue"] = returns_rev / total_rev * 100 if total_rev != 0 else 0
+    return report
+
+
