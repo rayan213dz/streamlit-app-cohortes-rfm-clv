@@ -151,3 +151,69 @@ page = st.sidebar.radio(
     ["KPIs (Overview)", "Cohortes (Diagnostiquer)", "Segments RFM (Prioriser)", "Scénarios (Simuler)", "Plan d’action & Export","Data Quality & Coverage"],
 )
 
+
+# ============================================================
+# PAGE 1 : KPIs (OVERVIEW)
+# ============================================================
+if page == "KPIs (Overview)":
+    st.subheader("📌 KPIs principaux")
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+
+    # KPI 1 : Clients actifs
+    active_customers = n_customers
+    with col1:
+        st.metric("Clients uniques (n)", value=f"{active_customers:,}")
+        with st.expander("ℹ Clients uniques"):
+            st.write(
+                "Nombre de *clients distincts* ayant passé au moins une commande sur "
+                "la période filtrée. Exemple : si 3 clients A, B, C ont commandé, alors n = 3."
+            )
+
+    # KPI 2 : CA total
+    with col2:
+        st.metric("CA total filtré", value=f"{total_revenue:,.0f} £")
+        with st.expander("ℹ Chiffre d'affaires (CA)"):
+            st.write(
+                "Somme du *Revenue* sur la période filtrée. "
+                "Revenue = Quantity × Price (les retours peuvent être négatifs ou neutralisés)."
+            )
+
+    # KPI 3 : CA moyen à 90 jours par nouveau client (approximation via CLV empirique 3 mois)
+    clv_3m = compute_clv_empirical(retention_table, revenue_age, horizon_months=min(3, revenue_age.shape[1]))
+    clv_3m_per_cust = clv_3m / max(n_customers, 1)
+
+    with col3:
+        st.metric("CA 90j moyen / client", value=f"{clv_3m_per_cust:,.2f} £")
+        with st.expander("ℹ CA à 90 jours par client"):
+            st.write(
+                "Somme du CA moyen par âge de cohorte sur les *3 premiers mois* "
+                "divisée par le nombre de clients. Illustration :\n\n"
+                "- Mois 0 : 20£, Mois 1 : 10£, Mois 2 : 5£ ⇒ CLV_90j = 35£."
+            )
+
+    # KPI 4 : CLV empirique (12 mois)
+    with col4:
+        st.metric("CLV empirique 12 mois / client", value=f"{clv_emp_per_cust:,.2f} £")
+        with st.expander("ℹ CLV empirique"):
+            st.write(
+                "CLV empirique = somme du *CA moyen par âge de cohorte* sur un horizon donné "
+                "(ici 12 mois), *divisée par le nombre de clients*.\n\n"
+                "On observe ce que les cohortes passées ont réellement dépensé."
+            )
+
+    # KPI 5 : CLV (formule fermée)
+    with col5:
+        st.metric("CLV formule / client", value=f"{clv_formula_per_cust:,.2f} £")
+        with st.expander("ℹ CLV formule fermée"):
+            st.write(
+                "Formule : *CLV = m × r / (1 + d − r)*\n\n"
+                "- r : taux de rétention mensuel moyen (ici ≈ rétention M+1)\n"
+                "- d : taux d'actualisation mensuel (ici 1%)\n"
+                "- m : marge moyenne par mois et par client\n\n"
+                "Exemple : r=0.8, d=0.1, m=10£ ⇒ CLV = 10×0.8/(1+0.1−0.8) = 26.67£."
+            )
+
+    st.markdown("---")
+
+
