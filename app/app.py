@@ -64,7 +64,7 @@ countries = st.sidebar.multiselect(
     default=["United Kingdom"] if "United Kingdom" in df_raw["Country"].unique() else [],
 )
 
-returns_mode=st.sidebar.radio(
+returns_mode =st.sidebar.radio(
     "Gestion des retours",
     ["Inclure", "Exclure", "Neutraliser"],
     help=(
@@ -103,6 +103,7 @@ elif returns_mode == "Neutraliser":
     st.markdown("🟦 *Retours neutralisés (CA = 0)*")
 
 st.markdown("---")
+
 
 
 
