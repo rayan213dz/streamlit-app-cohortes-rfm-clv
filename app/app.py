@@ -36,7 +36,7 @@ st.caption(
 
 @st.cache_data
 def load_raw_data():
-    df = load_data("data/raw/online_retail_II.xlsx")
+    df =load_data("data/raw/online_retail_II.xlsx")
     return df
 
 
@@ -103,3 +103,4 @@ elif returns_mode == "Neutraliser":
     st.markdown("🟦 *Retours neutralisés (CA = 0)*")
 
 st.markdown("---")
+
