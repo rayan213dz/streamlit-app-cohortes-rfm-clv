@@ -73,3 +73,33 @@ returns_mode = st.sidebar.radio(
         "Neutraliser : le CA des retours est mis à 0."
     ),
 )
+
+min_order_value = st.sidebar.number_input(
+    "Seuil minimum de commande (Revenue)",
+    min_value=0.0,
+    value=0.0,
+    step=10.0,
+)
+
+# application filtres
+df = apply_filters(
+    df_raw,
+    start_date=start_date,
+    end_date=end_date,
+    countries=countries if len(countries) > 0 else None,
+    returns_mode=returns_mode,
+)
+
+if min_order_value > 0:
+    df = df[df["Revenue"].abs() >= min_order_value]
+
+# Badge retours
+filters_badge = f"Période : {start_date} → {end_date} | n transactions = {len(df):,}"
+st.markdown(f"*Filtres actifs :* {filters_badge}")
+
+if returns_mode == "Exclure":
+    st.markdown("🟧 *Retours exclus*")
+elif returns_mode == "Neutraliser":
+    st.markdown("🟦 *Retours neutralisés (CA = 0)*")
+
+st.markdown("---")
