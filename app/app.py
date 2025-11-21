@@ -234,4 +234,71 @@ if page == "KPIs (Overview)":
     st.pyplot(fig)
 
     st.caption(f"n mois = {len(monthly_rev)} | n transactions = {len(df):,}")
+    
+# ============================================================
+# PAGE 2 : COHORTES
+# ============================================================
+elif page == "Cohortes (Diagnostiquer)":
+    st.subheader("🧬 Cohortes d'acquisition & rétention")
+
+    st.markdown(
+        "Une *cohorte* regroupe les clients par date de première commande. "
+        "On suit ensuite leur rétention et leur CA par *âge de cohorte* (M+0, M+1, ...)."
+    )
+
+    # Heatmap de rétention
+    st.write("### 🔥 Heatmap de rétention par cohorte (en %)")
+    retention_percent = retention_table.copy() * 100
+
+    fig1, ax1 = plt.subplots(figsize=(10, 6))
+    sns.heatmap(
+        retention_percent,
+        annot=True,
+        fmt=".1f",
+        cmap="Blues",
+        ax=ax1,
+    )
+    ax1.set_xlabel("Âge de cohorte (mois)")
+    ax1.set_ylabel("Mois de cohorte")
+    ax1.set_title("Rétention (%) par cohorte et âge (M+0 = mois d'acquisition)")
+    st.pyplot(fig1)
+    st.caption(f"n cohortes = {retention_table.shape[0]} | n âges = {retention_table.shape[1]}")
+
+    # Focus sur une cohorte spécifique
+    st.write("### 🎯 Focus sur une cohorte")
+    cohort_list = list(retention_table.index.astype(str))
+    selected_cohort = st.selectbox("Choisissez un mois de cohorte", cohort_list)
+
+    if selected_cohort:
+        cohort_idx = retention_table.index.astype(str) == selected_cohort
+        retention_cohort = retention_table[cohort_idx].T.reset_index()
+        retention_cohort.columns = ["CohortAge", "Retention"]
+
+        revenue_cohort = revenue_age[cohort_idx].T.reset_index()
+        revenue_cohort.columns = ["CohortAge", "Revenue"]
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            fig2, ax2 = plt.subplots(figsize=(5, 4))
+            ax2.plot(retention_cohort["CohortAge"], retention_cohort["Retention"] * 100, marker="o")
+            ax2.set_title(f"Rétention (%) - Cohorte {selected_cohort}")
+            ax2.set_xlabel("Âge de cohorte (mois)")
+            ax2.set_ylabel("Rétention (%)")
+            ax2.grid(True, alpha=0.3)
+            st.pyplot(fig2)
+
+        with col2:
+            fig3, ax3 = plt.subplots(figsize=(5, 4))
+            ax3.bar(revenue_cohort["CohortAge"], revenue_cohort["Revenue"])
+            ax3.set_title(f"CA par âge - Cohorte {selected_cohort}")
+            ax3.set_xlabel("Âge de cohorte (mois)")
+            ax3.set_ylabel("CA")
+            st.pyplot(fig3)
+
+        st.caption(
+            "Une baisse forte de la rétention ou du CA après un certain âge de cohorte "
+            "suggère un *décrochage* à cet âge (ex : M+2)."
+        )
+
 
