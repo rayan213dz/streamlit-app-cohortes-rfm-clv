@@ -37,3 +37,26 @@ def load_data(path="data/raw/online_retail_II.xlsx"):
     df["Year"] = df["InvoiceDate"].dt.year
 
     return df
+
+# ============================================================
+# 2. Filtres Streamlit
+# ============================================================
+
+def apply_filters(df, start_date=None, end_date=None, countries=None, returns_mode="Inclure"):
+
+    if start_date:
+        df = df[df["InvoiceDate"] >= pd.to_datetime(start_date)]
+    if end_date:
+        df = df[df["InvoiceDate"] <= pd.to_datetime(end_date)]
+
+    if countries:
+        df = df[df["Country"].isin(countries)]
+
+    if returns_mode == "Exclure":
+        df = df[df["IsReturn"] == False]
+
+    if returns_mode == "Neutraliser":
+        df = df.copy()
+        df.loc[df["IsReturn"], "Revenue"] = 0
+
+    return df
