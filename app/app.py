@@ -329,4 +329,15 @@ elif page == "Segments RFM (Prioriser)":
     )
     # jointure avec CA / marge réels (ici, approximations)
     rfm_summary["total_monetary"] = rfm_summary["n_customers"] * rfm_summary["avg_monetary"]
+    st.dataframe(
+        rfm_summary.sort_values("total_monetary", ascending=False),
+        use_container_width=True,
+    )
+
+    st.caption(
+        "n = nombre de clients dans le segment. "
+        "Vous pouvez orienter le CRM en priorisant les segments à forte valeur "
+        "(ex. Champions, Loyaux) et traiter les segments à risque."
+    )
+
 
