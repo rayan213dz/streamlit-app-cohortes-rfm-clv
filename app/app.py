@@ -142,3 +142,12 @@ d_discount = 0.01  # 1% de taux d'actualisation mensuel
 clv_formula_per_cust = compute_clv_formula(r=r_hat, d=d_discount, m=m_margin)
 
 
+# ============================================================
+# 4. NAVIGATION ENTRE LES PAGES
+# ============================================================
+
+page = st.sidebar.radio(
+    "📂 Navigation",
+    ["KPIs (Overview)", "Cohortes (Diagnostiquer)", "Segments RFM (Prioriser)", "Scénarios (Simuler)", "Plan d’action & Export","Data Quality & Coverage"],
+)
+
