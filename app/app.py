@@ -51,3 +51,25 @@ st.sidebar.header("🔍 Filtres globaux")
 
 min_date = df_raw["InvoiceDate"].min().date()
 max_date = df_raw["InvoiceDate"].max().date()
+
+start_date = st.sidebar.date_input("Date de début", min_date, min_value=min_date, max_value=max_date)
+end_date = st.sidebar.date_input("Date de fin", max_date, min_value=min_date, max_value=max_date)
+
+if start_date > end_date:
+    st.sidebar.error("La date de début doit être ≤ date de fin.")
+
+countries = st.sidebar.multiselect(
+    "Pays",
+    options=sorted(df_raw["Country"].unique()),
+    default=["United Kingdom"] if "United Kingdom" in df_raw["Country"].unique() else [],
+)
+
+returns_mode = st.sidebar.radio(
+    "Gestion des retours",
+    ["Inclure", "Exclure", "Neutraliser"],
+    help=(
+        "Inclure : les retours sont considérés comme des ventes négatives.\n"
+        "Exclure : les retours sont supprimés.\n"
+        "Neutraliser : le CA des retours est mis à 0."
+    ),
+)
