@@ -30,3 +30,24 @@ st.title("📊 Application Marketing : Cohortes, RFM & CLV")
 st.caption(
     "Ordre de lecture recommandé : *KPIs → Cohortes → Segments → Scénarios → Export*"
 )
+# ============================================================
+# 1. CHARGEMENT & CACHE DES DONNÉES
+# ============================================================
+
+@st.cache_data
+def load_raw_data():
+    df = load_data("data/raw/online_retail_II.xlsx")
+    return df
+
+
+df_raw = load_raw_data()
+
+
+# ============================================================
+# 2. FILTRES GLOBAUX
+# ============================================================
+
+st.sidebar.header("🔍 Filtres globaux")
+
+min_date = df_raw["InvoiceDate"].min().date()
+max_date = df_raw["InvoiceDate"].max().date()
