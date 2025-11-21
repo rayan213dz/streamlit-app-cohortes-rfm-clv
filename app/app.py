@@ -327,3 +327,6 @@ elif page == "Segments RFM (Prioriser)":
         )
         .reset_index()
     )
+    # jointure avec CA / marge réels (ici, approximations)
+    rfm_summary["total_monetary"] = rfm_summary["n_customers"] * rfm_summary["avg_monetary"]
+
