@@ -155,3 +155,15 @@ def compute_rfm(df):
     rfm["Segment"] = rfm["RFM_score"].apply(label_segment)
 
     return rfm
+
+# ============================================================
+# 5. CLV (empirique via cohortes)
+# ============================================================
+
+def compute_clv_empirical(retention_table, revenue_age, horizon_months=12):
+    """
+    CLV empirique = somme du CA moyen par âge de cohorte sur un horizon donné
+    """
+
+    clv = revenue_age.iloc[:, :horizon_months].mean().sum()
+    return clv
