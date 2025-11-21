@@ -15,9 +15,9 @@ from utils import (
     simulate_scenarios,
     data_quality_report
 )
-# ============================================================
+# ===========================================================
 # CONFIG STREAMLIT
-# ============================================================
+# ===========================================================
 
 st.set_page_config(
     page_title="Marketing Cohortes & CLV",
@@ -103,5 +103,6 @@ elif returns_mode == "Neutraliser":
     st.markdown("🟦 *Retours neutralisés (CA = 0)*")
 
 st.markdown("---")
+
 
 
