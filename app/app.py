@@ -300,5 +300,30 @@ elif page == "Cohortes (Diagnostiquer)":
             "Une baisse forte de la rétention ou du CA après un certain âge de cohorte "
             "suggère un *décrochage* à cet âge (ex : M+2)."
         )
+# ============================================================
+# PAGE 3 : SEGMENTS RFM
+# ============================================================
+elif page == "Segments RFM (Prioriser)":
+    st.subheader("👥 Segmentation RFM (Recency, Frequency, Monetary)")
 
+    st.markdown(
+        "RFM permet de prioriser les actions sur les clients :\n"
+        "- *Recency* : nombre de jours depuis la dernière commande (plus petit = plus récent)\n"
+        "- *Frequency* : nombre de factures différentes\n"
+        "- *Monetary* : CA cumulé\n"
+    )
 
+    st.markdown("### 📋 Table RFM (échantillon)")
+    st.dataframe(rfm.head(20))
+
+    st.markdown("### 📊 Synthèse par segment RFM")
+    rfm_summary = (
+        rfm.groupby("Segment")
+        .agg(
+            n_customers=("Recency", "count"),
+            avg_recency=("Recency", "mean"),
+            avg_frequency=("Frequency", "mean"),
+            avg_monetary=("Monetary", "mean"),
+        )
+        .reset_index()
+    )
