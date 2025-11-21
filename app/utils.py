@@ -60,3 +60,48 @@ def apply_filters(df, start_date=None, end_date=None, countries=None, returns_mo
         df.loc[df["IsReturn"], "Revenue"] = 0
 
     return df
+
+# ============================================================
+# 3. Cohortes
+# ============================================================
+
+def compute_cohorts(df):
+    """
+    Retourne :
+        - cohort_counts : table des clients uniques (Cohorte × Âge)
+        - retention : table en %
+        - revenue_age : CA par âge de cohorte
+    """
+
+    # 1) Date de première commande
+    first_purchase = df.groupby("Customer ID")["InvoiceDate"].min().rename("CohortStart")
+    df = df.join(first_purchase, on="Customer ID")
+
+    df["CohortMonth"] = df["CohortStart"].dt.to_period("M").dt.to_timestamp()
+    df["InvoiceMonth"] = df["InvoiceMonth"].dt.to_period("M").dt.to_timestamp()
+
+    # 2) Age de cohorte
+    df["CohortAge"] = (
+        (df["InvoiceMonth"].dt.year - df["CohortMonth"].dt.year) * 12 +
+        (df["InvoiceMonth"].dt.month - df["CohortMonth"].dt.month)
+    )
+
+    # 3) Nombre de clients uniques
+    cohort_counts = (
+        df.groupby(["CohortMonth", "CohortAge"])["Customer ID"]
+          .nunique()
+          .unstack(fill_value=0)
+    )
+
+    # 4) Rétention
+    cohort_size = cohort_counts.iloc[:, 0]
+    retention = cohort_counts.divide(cohort_size, axis=0)
+
+    # 5) CA par âge de cohorte
+    revenue_age = (
+        df.groupby(["CohortMonth", "CohortAge"])["Revenue"]
+          .sum()
+          .unstack(fill_value=0)
+    )
+
+    return cohort_counts, retention, revenue_age
