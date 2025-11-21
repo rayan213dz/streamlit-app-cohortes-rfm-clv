@@ -235,6 +235,7 @@ if page == "KPIs (Overview)":
 
     st.caption(f"n mois = {len(monthly_rev)} | n transactions = {len(df):,}")
     
+
 # ============================================================
 # PAGE 2 : COHORTES
 # ============================================================
@@ -300,6 +301,8 @@ elif page == "Cohortes (Diagnostiquer)":
             "Une baisse forte de la rétention ou du CA après un certain âge de cohorte "
             "suggère un *décrochage* à cet âge (ex : M+2)."
         )
+
+
 # ============================================================
 # PAGE 3 : SEGMENTS RFM
 # ============================================================
@@ -327,8 +330,10 @@ elif page == "Segments RFM (Prioriser)":
         )
         .reset_index()
     )
+    
     # jointure avec CA / marge réels (ici, approximations)
     rfm_summary["total_monetary"] = rfm_summary["n_customers"] * rfm_summary["avg_monetary"]
+    
     st.dataframe(
         rfm_summary.sort_values("total_monetary", ascending=False),
         use_container_width=True,
@@ -339,6 +344,7 @@ elif page == "Segments RFM (Prioriser)":
         "Vous pouvez orienter le CRM en priorisant les segments à forte valeur "
         "(ex. Champions, Loyaux) et traiter les segments à risque."
     )
+    
     # Barplot CA par segment
     st.markdown("### 💰 CA total par segment RFM")
     fig4, ax4 = plt.subplots(figsize=(8, 4))
@@ -348,6 +354,7 @@ elif page == "Segments RFM (Prioriser)":
     ax4.set_ylabel("CA total")
     ax4.set_title("CA total par segment RFM")
     st.pyplot(fig4)
+
 
 
 
