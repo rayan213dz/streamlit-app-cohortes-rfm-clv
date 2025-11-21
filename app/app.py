@@ -15,3 +15,18 @@ from utils import (
     simulate_scenarios,
     data_quality_report
 )
+# ============================================================
+# CONFIG STREAMLIT
+# ============================================================
+
+st.set_page_config(
+    page_title="Marketing Cohortes & CLV",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+st.title("📊 Application Marketing : Cohortes, RFM & CLV")
+
+st.caption(
+    "Ordre de lecture recommandé : *KPIs → Cohortes → Segments → Scénarios → Export*"
+)
