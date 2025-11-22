@@ -501,6 +501,45 @@ elif page == "Data Quality & Coverage":
     st.caption("Cette page permet de juger la **fiabilité** des analyses : "
                "volume de données, impact des filtres, importance des retours, etc.")
 
+# ============================================================
+# PAGE 5 : PLAN D’ACTION & EXPORT
+# ============================================================
+elif page == "Plan d’action & Export":
+    st.subheader("📤 Plan d’action & Exports")
+
+    st.markdown(
+        "Objectif : passer du **diagnostic** à l’**exécution**.\n\n"
+        "- Exporter une **liste activable** (CustomerID, segment RFM, métriques clés)\n"
+        "- Exporter les **données filtrées**\n"
+        "- Exemple d’export d’un graphique en PNG"
+    )
+
+    st.markdown("### 📋 Liste activable RFM")
+    activable = rfm[["Recency", "Frequency", "Monetary", "Segment"]].copy()
+    activable.reset_index(inplace=True)
+    activable.rename(columns={"Customer ID": "CustomerID"}, inplace=True)
+
+    st.dataframe(activable.head(20))
+
+    # Export CSV liste activable
+    csv_activable = activable.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="💾 Télécharger la liste activable (CSV)",
+        data=csv_activable,
+        file_name="liste_activable_rfm.csv",
+        mime="text/csv",
+    )
+
+    st.markdown("### 🗂 Export des données filtrées (transactions)")
+
+    csv_filtered = df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="💾 Télécharger les données filtrées (CSV)",
+        data=csv_filtered,
+        file_name="transactions_filtrees.csv",
+        mime="text/csv",
+    )
+
 
 
 
