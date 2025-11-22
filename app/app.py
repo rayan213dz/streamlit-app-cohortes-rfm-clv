@@ -356,6 +356,133 @@ elif page == "Segments RFM (Prioriser)":
     st.pyplot(fig4)
 
 
+# ============================================================
+# PAGE 4 : SCENARIOS (SIMULER)
+# ============================================================
+elif page == "Scénarios (Simuler)":
+    st.subheader("🧪 Simulation de scénarios CLV / Rétention / Marge")
+
+    st.markdown(
+        "On part d'une **situation baseline** (r, marge, d) et on simule l'effet :\n"
+        "- d'un gain de rétention (**+r%**)\n"
+        "- d'un changement de marge (**± marge%**)\n"
+        "- éventuellement d'une remise moyenne (impact indirect sur la marge)\n\n"
+        "Objectif : chiffrer ΔCLV, ΔCA, Δrétention."
+    )
+
+    st.markdown("### ⚙️ Paramètres baseline (globaux)")
+
+    colb1, colb2, colb3 = st.columns(3)
+    with colb1:
+        base_r = st.slider(
+            "Taux de rétention mensuel r (baseline)",
+            min_value=0.0,
+            max_value=0.99,
+            value=float(np.round(r_hat, 2)),
+            step=0.01,
+        )
+    with colb2:
+        base_d = st.slider(
+            "Taux d’actualisation mensuel d",
+            min_value=0.0,
+            max_value=0.2,
+            value=d_discount,
+            step=0.01,
+        )
+    with colb3:
+        base_margin = st.number_input(
+            "Marge moyenne mensuelle par client (baseline)",
+            min_value=0.0,
+            value=float(np.round(m_margin, 2)),
+            step=1.0,
+        )
+
+    base_clv_formula = compute_clv_formula(base_r, base_d, base_margin)
+
+    st.markdown("### 🔄 Paramètres du scénario")
+
+    cols1, cols2, cols3, cols4 = st.columns(4)
+    with cols1:
+        retention_gain_pct = st.slider(
+            "Gain de rétention (%)",
+            min_value=-20,
+            max_value=50,
+            value=5,
+            step=1,
+        )
+    with cols2:
+        margin_gain_pct = st.slider(
+            "Variation de la marge (%)",
+            min_value=-50,
+            max_value=50,
+            value=0,
+            step=1,
+        )
+    with cols3:
+        discount_pct = st.slider(
+            "Remise moyenne (%)",
+            min_value=0,
+            max_value=50,
+            value=0,
+            step=1,
+            help="Remise commerciale moyenne appliquée. Elle peut réduire la marge."
+        )
+    with cols4:
+        scenario_segment = st.selectbox(
+            "Segment RFM cible (optionnel)",
+            options=["Tous"] + sorted(rfm["Segment"].unique().tolist()),
+        )
+
+    # On traduit la remise en baisse de marge approximative
+    # (ex: 10% de remise ≈ -10% marge si tout le CA est remisé)
+    total_margin_change = margin_gain_pct - discount_pct
+
+    new_r = base_r * (1 + retention_gain_pct / 100)
+    new_margin = base_margin * (1 + total_margin_change / 100)
+
+    new_clv_formula = compute_clv_formula(new_r, base_d, new_margin)
+    delta_clv = new_clv_formula - base_clv_formula
+
+    st.markdown("### 📈 Résultats du scénario")
+
+    colres1, colres2, colres3 = st.columns(3)
+
+    with colres1:
+        st.metric(
+            "CLV baseline",
+            f"{base_clv_formula:,.2f} £",
+        )
+        with st.expander("ℹ️ CLV baseline"):
+            st.write("CLV calculée avec les paramètres r, d, marge **avant scénario**.")
+
+    with colres2:
+        st.metric(
+            "CLV scénario",
+            f"{new_clv_formula:,.2f} £",
+            delta=f"{delta_clv:,.2f} £",
+        )
+        with st.expander("ℹ️ CLV scénario"):
+            st.write(
+                "CLV recalculée après application du gain de rétention, "
+                "de la variation de marge et de la remise moyenne."
+            )
+
+    with colres3:
+        st.metric(
+            "Δ rétention (points)",
+            f"{(new_r - base_r)*100:.2f} pts",
+        )
+        with st.expander("ℹ️ Variation de rétention"):
+            st.write(
+                "Différence entre le taux de rétention mensuel **après scénario** "
+                "et celui de la baseline. Exemple : r passe de 70% à 75% ⇒ +5 pts."
+            )
+
+    st.caption(
+        f"Scénario appliqué sur : **{scenario_segment}** | période = {start_date} → {end_date} "
+        f"| n clients = {n_customers:,}"
+    )
+
 
 
 
