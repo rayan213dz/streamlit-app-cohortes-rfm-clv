@@ -483,6 +483,25 @@ elif page == "Scénarios (Simuler)":
         f"| n clients = {n_customers:,}"
     )
 
+elif page == "Data Quality & Coverage":
+    st.subheader("🧼 Qualité des données & couverture")
+
+    dq = data_quality_report(df_raw, df)
+
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Lignes totales", f"{dq['rows_total']:,}")
+    col2.metric("Lignes après filtres", f"{dq['rows_filtered']:,}",
+                delta=f"{dq['pct_kept']:.1f}% gardées")
+    col3.metric("% CustomerID manquants", f"{dq['pct_missing_customer']:.1f}%")
+
+    col4, col5 = st.columns(2)
+    col4.metric("% factures de retours", f"{dq['pct_returns']:.1f}%")
+    col5.metric("Part du CA liée aux retours", f"{dq['returns_share_revenue']:.1f}%")
+
+    st.caption("Cette page permet de juger la **fiabilité** des analyses : "
+               "volume de données, impact des filtres, importance des retours, etc.")
+
+
 
 
 
