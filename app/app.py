@@ -540,6 +540,34 @@ elif page == "Plan d’action & Export":
         mime="text/csv",
     )
 
+    st.markdown("### 🖼 Exemple : export d’une heatmap de rétention en PNG")
+
+    # On réutilise fig1 (heatmap) pour l’export
+    # Si tu veux, tu peux régénérer le graphique ici pour être sûr
+    fig_export, ax_export = plt.subplots(figsize=(10, 6))
+    sns.heatmap(retention_table * 100, annot=False, cmap="Blues", ax=ax_export)
+    ax_export.set_xlabel("Âge de cohorte (mois)")
+    ax_export.set_ylabel("Mois de cohorte")
+    ax_export.set_title("Rétention (%) par cohorte et âge")
+    st.pyplot(fig_export)
+
+    buf = io.BytesIO()
+    fig_export.savefig(buf, format="png", bbox_inches="tight")
+    buf.seek(0)
+
+    st.download_button(
+        label="📥 Télécharger la heatmap (PNG)",
+        data=buf,
+        file_name="heatmap_retention.png",
+        mime="image/png",
+    )
+
+    st.caption(
+        "Tu peux appliquer le même pattern pour exporter les autres graphiques : "
+        "créer la figure Matplotlib, la sauvegarder dans un buffer BytesIO, "
+        "puis utiliser `st.download_button`."
+    )
+
 
 
 
