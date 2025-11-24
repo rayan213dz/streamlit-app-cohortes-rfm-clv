@@ -29,7 +29,7 @@ st.set_page_config(
 st.title("📊 Application Marketing : Cohortes, RFM & CLV")
 
 st.caption(
-    "Ordre de lecture recommandé : *KPIs → Cohortes → Segments → Scénarios → Export*"
+    "Ordre de lecture recommandé : **KPIs → Cohortes → Segments → Scénarios → Export**"
 )
 
 
@@ -98,12 +98,12 @@ if min_order_value > 0:
 
 # Badge retours
 filters_badge = f"Période : {start_date} → {end_date} | n transactions = {len(df):,}"
-st.markdown(f"*Filtres actifs :* {filters_badge}")
+st.markdown(f"**Filtres actifs :** {filters_badge}")
 
 if returns_mode == "Exclure":
-    st.markdown("🟧 *Retours exclus*")
+    st.markdown("🟧 **Retours exclus**")
 elif returns_mode == "Neutraliser":
-    st.markdown("🟦 *Retours neutralisés (CA = 0)*")
+    st.markdown("🟦 **Retours neutralisés (CA = 0)**")
 
 st.markdown("---")
 
@@ -164,18 +164,18 @@ if page == "KPIs (Overview)":
     active_customers = n_customers
     with col1:
         st.metric("Clients uniques (n)", value=f"{active_customers:,}")
-        with st.expander("ℹ Clients uniques"):
+        with st.expander("ℹ️ Clients uniques"):
             st.write(
-                "Nombre de *clients distincts* ayant passé au moins une commande sur "
+                "Nombre de **clients distincts** ayant passé au moins une commande sur "
                 "la période filtrée. Exemple : si 3 clients A, B, C ont commandé, alors n = 3."
             )
 
     # KPI 2 : CA total
     with col2:
         st.metric("CA total filtré", value=f"{total_revenue:,.0f} £")
-        with st.expander("ℹ Chiffre d'affaires (CA)"):
+        with st.expander("ℹ️ Chiffre d'affaires (CA)"):
             st.write(
-                "Somme du *Revenue* sur la période filtrée. "
+                "Somme du **Revenue** sur la période filtrée. "
                 "Revenue = Quantity × Price (les retours peuvent être négatifs ou neutralisés)."
             )
 
@@ -185,9 +185,9 @@ if page == "KPIs (Overview)":
 
     with col3:
         st.metric("CA 90j moyen / client", value=f"{clv_3m_per_cust:,.2f} £")
-        with st.expander("ℹ CA à 90 jours par client"):
+        with st.expander("ℹ️ CA à 90 jours par client"):
             st.write(
-                "Somme du CA moyen par âge de cohorte sur les *3 premiers mois* "
+                "Somme du CA moyen par âge de cohorte sur les **3 premiers mois** "
                 "divisée par le nombre de clients. Illustration :\n\n"
                 "- Mois 0 : 20£, Mois 1 : 10£, Mois 2 : 5£ ⇒ CLV_90j = 35£."
             )
@@ -195,19 +195,19 @@ if page == "KPIs (Overview)":
     # KPI 4 : CLV empirique (12 mois)
     with col4:
         st.metric("CLV empirique 12 mois / client", value=f"{clv_emp_per_cust:,.2f} £")
-        with st.expander("ℹ CLV empirique"):
+        with st.expander("ℹ️ CLV empirique"):
             st.write(
-                "CLV empirique = somme du *CA moyen par âge de cohorte* sur un horizon donné "
-                "(ici 12 mois), *divisée par le nombre de clients*.\n\n"
+                "CLV empirique = somme du **CA moyen par âge de cohorte** sur un horizon donné "
+                "(ici 12 mois), **divisée par le nombre de clients**.\n\n"
                 "On observe ce que les cohortes passées ont réellement dépensé."
             )
 
     # KPI 5 : CLV (formule fermée)
     with col5:
         st.metric("CLV formule / client", value=f"{clv_formula_per_cust:,.2f} £")
-        with st.expander("ℹ CLV formule fermée"):
+        with st.expander("ℹ️ CLV formule fermée"):
             st.write(
-                "Formule : *CLV = m × r / (1 + d − r)*\n\n"
+                "Formule : **CLV = m × r / (1 + d − r)**\n\n"
                 "- r : taux de rétention mensuel moyen (ici ≈ rétention M+1)\n"
                 "- d : taux d'actualisation mensuel (ici 1%)\n"
                 "- m : marge moyenne par mois et par client\n\n"
@@ -234,7 +234,7 @@ if page == "KPIs (Overview)":
     st.pyplot(fig)
 
     st.caption(f"n mois = {len(monthly_rev)} | n transactions = {len(df):,}")
-    
+
 
 # ============================================================
 # PAGE 2 : COHORTES
@@ -243,8 +243,8 @@ elif page == "Cohortes (Diagnostiquer)":
     st.subheader("🧬 Cohortes d'acquisition & rétention")
 
     st.markdown(
-        "Une *cohorte* regroupe les clients par date de première commande. "
-        "On suit ensuite leur rétention et leur CA par *âge de cohorte* (M+0, M+1, ...)."
+        "Une **cohorte** regroupe les clients par date de première commande. "
+        "On suit ensuite leur rétention et leur CA par **âge de cohorte** (M+0, M+1, ...)."
     )
 
     # Heatmap de rétention
@@ -299,7 +299,7 @@ elif page == "Cohortes (Diagnostiquer)":
 
         st.caption(
             "Une baisse forte de la rétention ou du CA après un certain âge de cohorte "
-            "suggère un *décrochage* à cet âge (ex : M+2)."
+            "suggère un **décrochage** à cet âge (ex : M+2)."
         )
 
 
@@ -311,9 +311,9 @@ elif page == "Segments RFM (Prioriser)":
 
     st.markdown(
         "RFM permet de prioriser les actions sur les clients :\n"
-        "- *Recency* : nombre de jours depuis la dernière commande (plus petit = plus récent)\n"
-        "- *Frequency* : nombre de factures différentes\n"
-        "- *Monetary* : CA cumulé\n"
+        "- **Recency** : nombre de jours depuis la dernière commande (plus petit = plus récent)\n"
+        "- **Frequency** : nombre de factures différentes\n"
+        "- **Monetary** : CA cumulé\n"
     )
 
     st.markdown("### 📋 Table RFM (échantillon)")
@@ -330,10 +330,10 @@ elif page == "Segments RFM (Prioriser)":
         )
         .reset_index()
     )
-    
+
     # jointure avec CA / marge réels (ici, approximations)
     rfm_summary["total_monetary"] = rfm_summary["n_customers"] * rfm_summary["avg_monetary"]
-    
+
     st.dataframe(
         rfm_summary.sort_values("total_monetary", ascending=False),
         use_container_width=True,
@@ -344,7 +344,7 @@ elif page == "Segments RFM (Prioriser)":
         "Vous pouvez orienter le CRM en priorisant les segments à forte valeur "
         "(ex. Champions, Loyaux) et traiter les segments à risque."
     )
-    
+
     # Barplot CA par segment
     st.markdown("### 💰 CA total par segment RFM")
     fig4, ax4 = plt.subplots(figsize=(8, 4))
@@ -434,14 +434,23 @@ elif page == "Scénarios (Simuler)":
         )
 
     # On traduit la remise en baisse de marge approximative
-    # (ex: 10% de remise ≈ -10% marge si tout le CA est remisé)
     total_margin_change = margin_gain_pct - discount_pct
 
-    new_r = base_r * (1 + retention_gain_pct / 100)
-    new_margin = base_margin * (1 + total_margin_change / 100)
+    # Utilisation de la fonction simulate_scenarios
+    retention_gain = retention_gain_pct / 100
+    margin_gain = total_margin_change / 100
+    
+    # 💥 NOUVEAU : Appel à simulate_scenarios pour calculer la nouvelle CLV et le delta
+    new_clv_formula, delta_clv = simulate_scenarios(
+        base_clv=base_clv_formula,
+        retention=base_r,
+        margin=base_margin,
+        retention_gain=retention_gain,
+        margin_gain=margin_gain
+    )
 
-    new_clv_formula = compute_clv_formula(new_r, base_d, new_margin)
-    delta_clv = new_clv_formula - base_clv_formula
+    # Re-calcul de new_r pour l'affichage (car non retourné par simulate_scenarios)
+    new_r = base_r * (1 + retention_gain)
 
     st.markdown("### 📈 Résultats du scénario")
 
@@ -500,6 +509,8 @@ elif page == "Data Quality & Coverage":
 
     st.caption("Cette page permet de juger la **fiabilité** des analyses : "
                "volume de données, impact des filtres, importance des retours, etc.")
+
+
 
 # ============================================================
 # PAGE 5 : PLAN D’ACTION & EXPORT
@@ -567,9 +578,6 @@ elif page == "Plan d’action & Export":
         "créer la figure Matplotlib, la sauvegarder dans un buffer BytesIO, "
         "puis utiliser `st.download_button`."
     )
-
-
-
 
 
 
