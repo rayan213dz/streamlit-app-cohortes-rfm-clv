@@ -251,13 +251,19 @@ elif page == "Cohortes (Diagnostiquer)":
     st.write("### 🔥 Heatmap de rétention par cohorte (en %)")
     retention_percent = retention_table.copy() * 100
 
-    fig1, ax1 = plt.subplots(figsize=(10, 6))
+    # Formatage des labels de l'axe Y pour plus de clarté
+    retention_percent.index = retention_percent.index.strftime('%Y-%m') 
+
+    # Augmentation de la taille de la figure pour la lisibilité
+    fig1, ax1 = plt.subplots(figsize=(6, 6)) 
+    
     sns.heatmap(
         retention_percent,
-        annot=True,
-        fmt=".1f",
+        annot=False,  # 💡 Changement ici : PAS d'annotations
+        # fmt=".1f" n'est plus nécessaire car annot=False
         cmap="Blues",
         ax=ax1,
+        annot_kws={"size": 8} # On peut enlever cette ligne si elle n'est plus utilisée
     )
     ax1.set_xlabel("Âge de cohorte (mois)")
     ax1.set_ylabel("Mois de cohorte")
