@@ -33,9 +33,9 @@ st.caption(
 )
 
 
-# ============================================================
+# ===========================================================
 # 1. CHARGEMENT & CACHE DES DONNÉES
-# ============================================================
+# ===========================================================
 
 @st.cache_data
 def load_raw_data():
@@ -584,6 +584,7 @@ elif page == "Plan d’action & Export":
         "créer la figure Matplotlib, la sauvegarder dans un buffer BytesIO, "
         "puis utiliser `st.download_button`."
     )
+
 
 
 
