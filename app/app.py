@@ -46,9 +46,9 @@ def load_raw_data():
 df_raw = load_raw_data()
 
 
-# ============================================================
+# ===========================================================
 # 2. FILTRES GLOBAUX
-# ============================================================
+# ===========================================================
 
 st.sidebar.header("🔍 Filtres globaux")
 
@@ -584,6 +584,7 @@ elif page == "Plan d’action & Export":
         "créer la figure Matplotlib, la sauvegarder dans un buffer BytesIO, "
         "puis utiliser `st.download_button`."
     )
+
 
 
 
