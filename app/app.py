@@ -16,9 +16,9 @@ from utils import (
     data_quality_report
 )
 
-# ============================================================
+# ===========================================================
 # CONFIG STREAMLIT
-# ============================================================
+# ===========================================================
 
 st.set_page_config(
     page_title="Marketing Cohortes & CLV",
@@ -578,6 +578,7 @@ elif page == "Plan d’action & Export":
         "créer la figure Matplotlib, la sauvegarder dans un buffer BytesIO, "
         "puis utiliser `st.download_button`."
     )
+
 
 
 
