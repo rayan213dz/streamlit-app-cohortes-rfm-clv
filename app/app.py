@@ -603,7 +603,7 @@ st.markdown("""
 @st.cache_data
 def load_raw_data():
     """Charge les données brutes avec cache"""
-    df = load_data("data/raw/online_retail_cleaned.csv")
+    df = load_data("data/clean/online_retail_cleaned.csv")
     return df
 
 try:
@@ -2040,3 +2040,4 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
