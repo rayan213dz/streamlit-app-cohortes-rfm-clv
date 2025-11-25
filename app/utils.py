@@ -6,7 +6,7 @@ import numpy as np
 # 1. Chargement & Nettoyage des données
 # ============================================================
 
-def load_data(path="data/raw/online_retail_cleaned.csv"):
+def load_data(path=None):
     """
     Charge le fichier nettoyé (CSV) généré par le notebook.
     - Convertit InvoiceDate en datetime
