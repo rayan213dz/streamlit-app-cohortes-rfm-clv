@@ -8,7 +8,7 @@ from scipy import stats
 # 1. CHARGEMENT & NETTOYAGE DES DONNÉES
 # ============================================================
 
-def load_data(path="data/raw/online_retail_cleaned.csv"):
+def load_data(path="data/clean/online_retail_cleaned.csv"):
     """
     Charge le fichier nettoyé (CSV) généré par le notebook.
     - Convertit InvoiceDate en datetime
