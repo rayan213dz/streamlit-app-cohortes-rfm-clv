@@ -15,6 +15,12 @@ def load_data(path="data/raw/online_retail_cleaned.csv"):
     """
 
     # Lecture CSV
+
+    default_url = "https://drive.google.com/uc?export=download&id=1j6MVlQrVzAh8xWkvNVtAfjCUw6sqe44R"
+
+    if path is None:
+        path = default_url
+    
     df = pd.read_csv(path)
 
     # Normalisation des noms de colonnes
