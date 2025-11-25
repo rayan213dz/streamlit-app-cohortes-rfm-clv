@@ -108,9 +108,9 @@ elif returns_mode == "Neutraliser":
 st.markdown("---")
 
 
-# ============================================================
+# ===========================================================
 # 3. PRÉ-CALCULS COMMUNS (COHORTES, RFM, CLV)
-# ============================================================
+# ===========================================================
 
 if df.empty:
     st.warning("Aucune donnée ne correspond aux filtres sélectionnés.")
@@ -578,6 +578,7 @@ elif page == "Plan d’action & Export":
         "créer la figure Matplotlib, la sauvegarder dans un buffer BytesIO, "
         "puis utiliser `st.download_button`."
     )
+
 
 
 
