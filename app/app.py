@@ -36,15 +36,14 @@ st.caption(
 # ===========================================================
 # 1. CHARGEMENT & CACHE DES DONNÉES
 # ===========================================================
-
 @st.cache_data
 def load_raw_data():
-    df = load_data("data/raw/online_retail_cleaned.csv")
+    df = load_data()   # charge depuis Google Drive
     return df
 
 
-df_raw = load_raw_data()
 
+df_raw = load_raw_data()
 
 # ===========================================================
 # 2. FILTRES GLOBAUX
@@ -578,6 +577,7 @@ elif page == "Plan d’action & Export":
         "créer la figure Matplotlib, la sauvegarder dans un buffer BytesIO, "
         "puis utiliser `st.download_button`."
     )
+
 
 
 
