@@ -64,14 +64,17 @@ Le dashboard s'ouvre automatiquement à `http://localhost:8501`
 
 ```
 marketing-analytics-dashboard/
-├── app
+├── app/
  └──app.py # Application Streamlit (2000+ lignes)
- └──app.py  # Fonctions de calcul (600+ lignes)                
+ └──util.py  # Fonctions de calcul (600+ lignes)                
 ├── requirements.txt          # Dépendances Python
 ├── README.md                 # Documentation
 └── data/
     └── clean/
         └── online_retail_cleaned.csv
+    └──raw/
+        └── online_retail_II.xlsx
+
 ```
 
 ---
@@ -164,5 +167,6 @@ MIT License - Voir [LICENSE](LICENSE) pour plus de détails.
 
 
 </div>
+
 
 
