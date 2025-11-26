@@ -161,8 +161,6 @@ MIT License - Voir [LICENSE](LICENSE) pour plus de détails.
 
 <div align="center">
 
-**⭐ N'oubliez pas de donner une étoile si ce projet vous a été utile ! ⭐**
-
-Made with ❤️ by [Votre Nom]
 
 </div>
+
