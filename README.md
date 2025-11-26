@@ -53,7 +53,7 @@ cd marketing-analytics-dashboard
 pip install -r requirements.txt
 
 # 3. Lancer le dashboard
-streamlit run app.py
+streamlit run app/app.py
 ```
 
 Le dashboard s'ouvre automatiquement à `http://localhost:8501`
@@ -64,12 +64,13 @@ Le dashboard s'ouvre automatiquement à `http://localhost:8501`
 
 ```
 marketing-analytics-dashboard/
-├── app.py                    # Application Streamlit (2000+ lignes)
-├── utils.py                  # Fonctions de calcul (600+ lignes)
+├── app
+ └──app.py # Application Streamlit (2000+ lignes)
+ └──app.py  # Fonctions de calcul (600+ lignes)                
 ├── requirements.txt          # Dépendances Python
 ├── README.md                 # Documentation
 └── data/
-    └── raw/
+    └── clean/
         └── online_retail_cleaned.csv
 ```
 
@@ -163,4 +164,5 @@ MIT License - Voir [LICENSE](LICENSE) pour plus de détails.
 
 
 </div>
+
 
