@@ -72,8 +72,8 @@ plotly_template = dict(
             tickfont=dict(color='#0f172a', size=11)
         ),
         legend=dict(font=dict(color='#0f172a', size=11)),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='white',
+        plot_bgcolor='white',
     )
 )
 
@@ -102,8 +102,8 @@ def apply_plotly_black_text(fig):
             gridcolor='rgba(0,0,0,0.1)'
         ),
         legend=dict(font=dict(color='#0f172a', size=11)),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='white',
+        plot_bgcolor='white',
     )
     return fig
 
@@ -867,24 +867,24 @@ if page == "📊 KPIs (Overview)":
         fig.update_layout(
             height=450,
             hovermode='x unified',
-            plot_bgcolor='#0f172a',
-            paper_bgcolor='#0f172a',
-            font=dict(color='white', size=12),
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(color='#0f172a', size=12),
             title=dict(
                 text="Évolution du CA mensuel",
-                font=dict(color='white', size=18, family='Inter')
+                font=dict(color='#0f172a', size=18, family='Inter')
             ),
             xaxis=dict(
                 showgrid=True,
-                gridcolor='rgba(255, 255, 255, 0.1)',
-                color='white',
-                title=dict(text="Mois", font=dict(color='white'))
+                gridcolor='rgba(0, 0, 0, 0.1)',
+                color='#0f172a',
+                title=dict(text="Mois", font=dict(color='#0f172a'))
             ),
             yaxis=dict(
                 showgrid=True,
-                gridcolor='rgba(255, 255, 255, 0.1)',
-                color='white',
-                title=dict(text="CA (£)", font=dict(color='white'))
+                gridcolor='rgba(0, 0, 0, 0.1)',
+                color='#0f172a',
+                title=dict(text="CA (£)", font=dict(color='#0f172a'))
             ),
             hoverlabel=dict(
                 bgcolor="white",
@@ -911,24 +911,24 @@ if page == "📊 KPIs (Overview)":
         )
         fig.update_layout(
             height=450,
-            plot_bgcolor='#0f172a',
-            paper_bgcolor='#0f172a',
-            font=dict(color='white', size=12),
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(color='#0f172a', size=12),
             title=dict(
                 text="CA trimestriel",
-                font=dict(color='white', size=18, family='Inter')
+                font=dict(color='#0f172a', size=18, family='Inter')
             ),
             xaxis=dict(
                 showgrid=True,
-                gridcolor='rgba(255, 255, 255, 0.1)',
-                color='white',
-                title=dict(text="Trimestre", font=dict(color='white'))
+                gridcolor='rgba(0, 0, 0, 0.1)',
+                color='#0f172a',
+                title=dict(text="Trimestre", font=dict(color='#0f172a'))
             ),
             yaxis=dict(
                 showgrid=True,
-                gridcolor='rgba(255, 255, 255, 0.1)',
-                color='white',
-                title=dict(text="CA (£)", font=dict(color='white'))
+                gridcolor='rgba(0, 0, 0, 0.1)',
+                color='#0f172a',
+                title=dict(text="CA (£)", font=dict(color='#0f172a'))
             ),
             hoverlabel=dict(
                 bgcolor="white",
@@ -955,23 +955,23 @@ if page == "📊 KPIs (Overview)":
         )
         fig.update_layout(
             height=450,
-            plot_bgcolor='#0f172a',
-            paper_bgcolor='#0f172a',
-            font=dict(color='white', size=12),
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(color='#0f172a', size=12),
             title=dict(
                 text="Top 10 pays par CA",
-                font=dict(color='white', size=18, family='Inter')
+                font=dict(color='#0f172a', size=18, family='Inter')
             ),
             xaxis=dict(
                 showgrid=True,
-                gridcolor='rgba(255, 255, 255, 0.1)',
-                color='white',
-                title=dict(text="CA (£)", font=dict(color='white'))
+                gridcolor='rgba(0, 0, 0, 0.1)',
+                color='#0f172a',
+                title=dict(text="CA (£)", font=dict(color='#0f172a'))
             ),
             yaxis=dict(
                 showgrid=False,
-                color='white',
-                title=dict(text="Pays", font=dict(color='white'))
+                color='#0f172a',
+                title=dict(text="Pays", font=dict(color='#0f172a'))
             ),
             hoverlabel=dict(
                 bgcolor="white",
@@ -1021,7 +1021,9 @@ elif page == "🧬 Cohortes (Diagnostiquer)":
         xaxis_title="Âge de cohorte",
         yaxis_title="Mois de cohorte",
         height=600,
-        font=dict(size=12)
+        font=dict(size=12),
+        plot_bgcolor='white',
+        paper_bgcolor='white'
     )
     
     fig = add_white_tooltip(fig)
@@ -1085,7 +1087,9 @@ elif page == "🧬 Cohortes (Diagnostiquer)":
                 xaxis_title="Âge de cohorte (mois)",
                 yaxis_title="Rétention (%)",
                 height=400,
-                hovermode='x unified'
+                hovermode='x unified',
+                plot_bgcolor='white',
+                paper_bgcolor='white'
             )
             fig = add_white_tooltip(fig)
             st.plotly_chart(fig, use_container_width=True)
@@ -1105,7 +1109,9 @@ elif page == "🧬 Cohortes (Diagnostiquer)":
                 xaxis_title="Âge de cohorte (mois)",
                 yaxis_title="CA (£)",
                 height=400,
-                hovermode='x unified'
+                hovermode='x unified',
+                plot_bgcolor='white',
+                paper_bgcolor='white'
             )
             fig = add_white_tooltip(fig)
             st.plotly_chart(fig, use_container_width=True)
@@ -1127,7 +1133,9 @@ elif page == "🧬 Cohortes (Diagnostiquer)":
             title=f"LTV cumulée - Cohorte {selected_cohort_str}",
             xaxis_title="Âge de cohorte (mois)",
             yaxis_title="LTV cumulée (£)",
-            height=350
+            height=350,
+            plot_bgcolor='white',
+            paper_bgcolor='white'
         )
         fig = add_white_tooltip(fig)
         st.plotly_chart(fig, use_container_width=True)
@@ -1175,7 +1183,11 @@ elif page == "👥 Segments RFM (Prioriser)":
         hole=0.4
     )
     fig.update_traces(textposition='inside', textinfo='percent+label')
-    fig.update_layout(height=500)
+    fig.update_layout(
+        height=500,
+        plot_bgcolor='white',
+        paper_bgcolor='white'
+    )
     fig = add_white_tooltip(fig)
     st.plotly_chart(fig, use_container_width=True)
     
@@ -1238,7 +1250,11 @@ elif page == "👥 Segments RFM (Prioriser)":
             text="CA_Total"
         )
         fig.update_traces(texttemplate='%{text:,.0f}£', textposition='outside')
-        fig.update_layout(height=450)
+        fig.update_layout(
+            height=450,
+            plot_bgcolor='white',
+            paper_bgcolor='white'
+        )
         fig = add_white_tooltip(fig)
         st.plotly_chart(fig, use_container_width=True)
     
@@ -1257,7 +1273,11 @@ elif page == "👥 Segments RFM (Prioriser)":
             },
             hover_data=["CA_Total"]
         )
-        fig.update_layout(height=450)
+        fig.update_layout(
+            height=450,
+            plot_bgcolor='white',
+            paper_bgcolor='white'
+        )
         fig = add_white_tooltip(fig)
         st.plotly_chart(fig, use_container_width=True)
     
@@ -1296,7 +1316,11 @@ elif page == "👥 Segments RFM (Prioriser)":
         color="Risque",
         color_discrete_map={"Élevé": "#ef4444", "Moyen": "#f59e0b", "Faible": "#10b981"}
     )
-    fig.update_layout(height=400)
+    fig.update_layout(
+        height=400,
+        plot_bgcolor='white',
+        paper_bgcolor='white'
+    )
     fig = add_white_tooltip(fig)
     st.plotly_chart(fig, use_container_width=True)
 
@@ -1498,7 +1522,11 @@ elif page == "🧪 Scénarios (Simuler)":
             color="Impact (£)",
             color_continuous_scale="RdYlGn"
         )
-        fig.update_layout(height=300)
+        fig.update_layout(
+            height=300,
+            plot_bgcolor='white',
+            paper_bgcolor='white'
+        )
         fig = add_white_tooltip(fig)
         st.plotly_chart(fig, use_container_width=True)
     
@@ -1556,7 +1584,9 @@ elif page == "🧪 Scénarios (Simuler)":
             title="Sensibilité de la CLV (Rétention × Marge)",
             xaxis_title="Variation de marge (%)",
             yaxis_title="Variation de rétention (%)",
-            height=600
+            height=600,
+            plot_bgcolor='white',
+            paper_bgcolor='white'
         )
         
         fig = add_white_tooltip(fig)
@@ -1573,8 +1603,7 @@ elif page == "📈 Analyses Avancées":
     
     tabs = st.tabs([
         "🌡️ Saisonnalité",
-        "🛍️ Affinité produits",
-        "💼 CAC & LTV/CAC"
+        "🛍️ Affinité produits"
     ])
     
     # TAB 1 : Saisonnalité
@@ -1594,7 +1623,11 @@ elif page == "📈 Analyses Avancées":
                 color=monthly_rev.values,
                 color_continuous_scale="Viridis"
             )
-            fig.update_layout(height=400)
+            fig.update_layout(
+                height=400,
+                plot_bgcolor='white',
+                paper_bgcolor='white'
+            )
             fig = add_white_tooltip(fig)
             st.plotly_chart(fig, use_container_width=True)
         
@@ -1607,7 +1640,11 @@ elif page == "📈 Analyses Avancées":
                 color=hourly_rev.values,
                 color_continuous_scale="Plasma"
             )
-            fig.update_layout(height=400)
+            fig.update_layout(
+                height=400,
+                plot_bgcolor='white',
+                paper_bgcolor='white'
+            )
             fig = add_white_tooltip(fig)
             st.plotly_chart(fig, use_container_width=True)
         
@@ -1640,7 +1677,11 @@ elif page == "📈 Analyses Avancées":
                     color="Frequency",
                     color_continuous_scale="Viridis"
                 )
-                fig.update_layout(height=600)
+                fig.update_layout(
+                    height=600,
+                    plot_bgcolor='white',
+                    paper_bgcolor='white'
+                )
                 fig = add_white_tooltip(fig)
                 st.plotly_chart(fig, use_container_width=True)
                 
@@ -1656,78 +1697,6 @@ elif page == "📈 Analyses Avancées":
                 st.info("Pas assez de données pour calculer les affinités produits.")
         else:
             st.warning("La colonne 'StockCode' n'est pas disponible dans les données.")
-    
-    # TAB 3 : CAC & LTV/CAC
-    with tabs[2]:
-        st.markdown("### 💼 CAC (Customer Acquisition Cost) & Ratio LTV/CAC")
-        
-        st.markdown("""
-        <div class="info-box">
-            <p style="margin: 0;">
-                Le <strong>CAC</strong> (Customer Acquisition Cost) représente le coût d'acquisition d'un nouveau client.<br>
-                Le ratio <strong>LTV/CAC</strong> mesure la rentabilité de vos investissements marketing.<br><br>
-                <strong>🎯 Benchmark :</strong> Un ratio LTV/CAC > 3 est généralement considéré comme excellent.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        marketing_budget = st.number_input(
-            "💰 Budget marketing total (£) - optionnel",
-            min_value=0.0,
-            value=0.0,
-            step=1000.0,
-            help="Entrez votre budget marketing pour calculer le CAC et le ratio LTV/CAC"
-        )
-        
-        if marketing_budget > 0:
-            cac_metrics = compute_cac_metrics(df, marketing_spend=marketing_budget)
-            
-            col1, col2, col3, col4 = st.columns(4)
-            
-            col1.metric("👥 Nouveaux clients", f"{cac_metrics['total_new_customers']:,}")
-            col2.metric("💰 CAC", f"{cac_metrics['cac']:,.2f} £")
-            col3.metric("📊 Ratio LTV/CAC", f"{cac_metrics['ltv_cac_ratio']:.2f}x")
-            col4.metric("⏱️ Break-even", f"{cac_metrics['break_even_months']:.1f} mois")
-            
-            # Visualisation du ratio
-            ratio = cac_metrics['ltv_cac_ratio']
-            
-            fig = go.Figure()
-            
-            fig.add_trace(go.Indicator(
-                mode="gauge+number+delta",
-                value=ratio,
-                delta={'reference': 3, 'increasing': {'color': "green"}},
-                gauge={
-                    'axis': {'range': [None, 10]},
-                    'bar': {'color': "#667eea"},
-                    'steps': [
-                        {'range': [0, 1], 'color': "#fee2e2"},
-                        {'range': [1, 3], 'color': "#fef3c7"},
-                        {'range': [3, 10], 'color': "#d1fae5"}
-                    ],
-                    'threshold': {
-                        'line': {'color': "red", 'width': 4},
-                        'thickness': 0.75,
-                        'value': 3
-                    }
-                },
-                title={'text': "Ratio LTV/CAC"}
-            ))
-            
-            fig.update_layout(height=400)
-            fig = add_white_tooltip(fig)
-            st.plotly_chart(fig, use_container_width=True)
-            
-            if ratio >= 3:
-                st.success("✅ Excellent ! Votre ratio LTV/CAC est supérieur à 3. Vos investissements marketing sont rentables.")
-            elif ratio >= 1:
-                st.warning("⚠️ Attention ! Votre ratio LTV/CAC est entre 1 et 3. Vous devriez optimiser vos coûts d'acquisition ou augmenter la LTV.")
-            else:
-                st.error("❌ Critique ! Votre ratio LTV/CAC est inférieur à 1. Vous perdez de l'argent sur chaque acquisition client.")
-        
-        else:
-            st.info("💡 Entrez un budget marketing pour calculer le CAC et le ratio LTV/CAC.")
 
 # ============================================================
 # PAGE 6 : EXPORT
@@ -1895,7 +1864,11 @@ elif page == "📤 Plan d'action & Export":
         title="Répartition des clients par segment",
         color_discrete_sequence=px.colors.qualitative.Set3
     )
-    fig.update_layout(height=400)
+    fig.update_layout(
+        height=400,
+        plot_bgcolor='white',
+        paper_bgcolor='white'
+    )
     fig = add_white_tooltip(fig)
     st.plotly_chart(fig, use_container_width=True)
     
@@ -1987,7 +1960,9 @@ elif page == "🧼 Qualité & Couverture":
         yaxis_title="Score (%)",
         yaxis=dict(range=[0, 110]),
         height=400,
-        showlegend=False
+        showlegend=False,
+        plot_bgcolor='white',
+        paper_bgcolor='white'
     )
     
     fig = add_white_tooltip(fig)
@@ -2040,4 +2015,3 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
-
