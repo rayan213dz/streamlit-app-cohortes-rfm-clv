@@ -694,34 +694,60 @@ elif returns_mode == "Neutraliser":
 st.markdown("---")
 
 # ============================================================
-# PRÉ-CALCULS COMMUNS
+# FONCTION CACHÉE POUR PRÉ-CALCULS LOURDS
 # ============================================================
 
-# Cohortes
-cohort_counts, retention_table, revenue_age, ltv_by_cohort = compute_cohorts(df)
-avg_basket, purchase_freq = compute_cohort_metrics(df)
+# Cette fonction est exécutée une seule fois par combinaison unique de DataFrame (df)
+# Elle permet à Streamlit de mettre en cache les résultats des calculs gourmands.
+@st.cache_data(show_spinner="Calcul des métriques Cohortes, RFM et CLV...", ttl=3600)
+def run_cached_calculations(df: pd.DataFrame):
+    # --- 1. Cohortes ---
+    cohort_counts, retention_table, revenue_age, ltv_by_cohort = compute_cohorts(df)
+    avg_basket, purchase_freq = compute_cohort_metrics(df)
 
-# RFM
-rfm = compute_rfm(df)
+    # --- 2. RFM ---
+    rfm = compute_rfm(df)
 
-# CLV
-clv_emp_total = compute_clv_empirical(retention_table, revenue_age, horizon_months=12)
+    # --- 3. Métriques CLV et paramètres pour la formule ---
+    
+    # CLV empirique
+    clv_emp_total = compute_clv_empirical(retention_table, revenue_age, horizon_months=12)
+    
+    # CLV formule - Paramètres
+    r_hat = retention_table.iloc[:, 1].mean() if retention_table.shape[1] > 1 else retention_table.iloc[:, 0].mean()
+    
+    n_customers = df["Customer ID"].nunique()
+    total_revenue = df["Revenue"].sum()
+    horizon_months = (df["InvoiceMonth"].max().to_period("M") - df["InvoiceMonth"].min().to_period("M")).n + 1
+    avg_monthly_rev_per_cust = total_revenue / max(horizon_months * n_customers, 1)
+    margin_rate_default = 0.30
+    m_margin = avg_monthly_rev_per_cust * margin_rate_default
+    d_discount = 0.01
+    
+    clv_formula_per_cust = compute_clv_formula(r=r_hat, d=d_discount, m=m_margin)
+    
+    # Retourner les résultats (y compris les DataFrames et les métriques)
+    return (
+        cohort_counts, retention_table, revenue_age, ltv_by_cohort,
+        avg_basket, purchase_freq, rfm, clv_emp_total, r_hat, m_margin, d_discount, clv_formula_per_cust, 
+    )
+
+# ============================================================
+# PRÉ-CALCULS COMMUNS - APPEL CACHÉ
+# ============================================================
+
+(
+    cohort_counts, retention_table, revenue_age, ltv_by_cohort,
+    avg_basket, purchase_freq, rfm, clv_emp_total, r_hat, m_margin, d_discount, clv_formula_per_cust, 
+) = run_cached_calculations(df)
+
+# --- Calculs légers (doivent rester hors du cache car dépendent du DF filtré) ---
+# Ces variables étaient précédemment calculées dans le bloc supprimé
 n_customers = df["Customer ID"].nunique()
+total_revenue = df["Revenue"].sum()
 clv_emp_per_cust = clv_emp_total / max(n_customers, 1)
 
-# CLV formule
-if retention_table.shape[1] > 1:
-    r_hat = retention_table.iloc[:, 1].mean()
-else:
-    r_hat = retention_table.iloc[:, 0].mean()
-
-horizon_months = (df["InvoiceMonth"].max().to_period("M") - df["InvoiceMonth"].min().to_period("M")).n + 1
-total_revenue = df["Revenue"].sum()
-avg_monthly_rev_per_cust = total_revenue / max(horizon_months * n_customers, 1)
-margin_rate_default = 0.30
-m_margin = avg_monthly_rev_per_cust * margin_rate_default
-d_discount = 0.01
-clv_formula_per_cust = compute_clv_formula(r=r_hat, d=d_discount, m=m_margin)
+# ============================================================
 
 # ============================================================
 # NAVIGATION
